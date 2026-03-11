@@ -49,10 +49,24 @@ function FadeIn({ children, delay = 0, className = "" }) {
   );
 }
 
+function useIsMobile(breakpoint = 768) {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < breakpoint);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, [breakpoint]);
+  return isMobile;
+}
+
+const scrollTo = (id) => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+
 /* ── NAVIGATION ── */
 function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const mobile = useIsMobile();
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", handleScroll);
@@ -60,58 +74,94 @@ function Nav() {
   }, []);
 
   const links = [
-    { label: "The Problem", href: "#problem" },
-    { label: "Services", href: "#services" },
-    { label: "Our Work", href: "#work" },
-    { label: "About", href: "#about" },
-    { label: "Contact", href: "#contact" },
+    { label: "The Problem", href: "problem" },
+    { label: "Services", href: "services" },
+    { label: "Our Work", href: "work" },
+    { label: "About", href: "about" },
+    { label: "Contact", href: "contact" },
   ];
 
   return (
     <nav
       style={{
         position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
-        background: scrolled ? "rgba(15,20,25,0.95)" : "transparent",
-        backdropFilter: scrolled ? "blur(12px)" : "none",
+        background: scrolled || menuOpen ? "rgba(15,20,25,0.97)" : "transparent",
+        backdropFilter: scrolled || menuOpen ? "blur(12px)" : "none",
         borderBottom: scrolled ? `1px solid ${BRAND.border}` : "1px solid transparent",
         transition: "all 0.3s ease",
         padding: "0 24px",
       }}
     >
-      <div style={{ maxWidth: 1200, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", height: 72 }}>
-        <a href="#" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: 10 }}>
+      <div style={{ maxWidth: 1200, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", height: 64 }}>
+        <a href="#" onClick={e => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }} style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: 10 }}>
           <div style={{
-            width: 36, height: 36, borderRadius: 8,
+            width: 32, height: 32, borderRadius: 7,
             background: `linear-gradient(135deg, ${BRAND.accent}, ${BRAND.accentDim})`,
             display: "flex", alignItems: "center", justifyContent: "center",
             fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 700,
-            fontSize: 18, color: BRAND.dark
+            fontSize: 16, color: BRAND.dark
           }}>C</div>
-          <span style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 20, fontWeight: 600, color: BRAND.text, letterSpacing: "-0.02em" }}>
+          <span style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: mobile ? 17 : 20, fontWeight: 600, color: BRAND.text, letterSpacing: "-0.02em" }}>
             CyberGuardrail
           </span>
         </a>
-        <div style={{ display: "flex", alignItems: "center", gap: 32 }}>
+
+        {/* Desktop nav */}
+        {!mobile && (
+          <div style={{ display: "flex", alignItems: "center", gap: 32 }}>
+            {links.map((l) => (
+              <a key={l.href} href={`#${l.href}`} onClick={e => { e.preventDefault(); scrollTo(l.href); }} style={{
+                color: BRAND.textMuted, textDecoration: "none", fontSize: 14,
+                fontFamily: "'DM Sans', sans-serif", fontWeight: 500,
+                letterSpacing: "0.02em", transition: "color 0.2s", cursor: "pointer",
+              }}
+                onMouseEnter={e => e.target.style.color = BRAND.accent}
+                onMouseLeave={e => e.target.style.color = BRAND.textMuted}
+              >{l.label}</a>
+            ))}
+            <a href="https://calendly.com/cyberguardrail/20min" target="_blank" rel="noopener noreferrer" style={{
+              background: BRAND.accent, color: BRAND.dark, padding: "10px 22px",
+              borderRadius: 6, textDecoration: "none", fontSize: 14, fontWeight: 600,
+              fontFamily: "'DM Sans', sans-serif", transition: "all 0.2s",
+            }}>Free Consultation</a>
+          </div>
+        )}
+
+        {/* Mobile hamburger */}
+        {mobile && (
+          <button onClick={() => setMenuOpen(!menuOpen)} style={{
+            background: "none", border: "none", cursor: "pointer", padding: 8,
+            display: "flex", flexDirection: "column", gap: 5,
+          }}>
+            <span style={{ width: 24, height: 2, background: BRAND.text, borderRadius: 2, transition: "all 0.3s",
+              transform: menuOpen ? "rotate(45deg) translateY(7px)" : "none" }} />
+            <span style={{ width: 24, height: 2, background: BRAND.text, borderRadius: 2, transition: "all 0.3s",
+              opacity: menuOpen ? 0 : 1 }} />
+            <span style={{ width: 24, height: 2, background: BRAND.text, borderRadius: 2, transition: "all 0.3s",
+              transform: menuOpen ? "rotate(-45deg) translateY(-7px)" : "none" }} />
+          </button>
+        )}
+      </div>
+
+      {/* Mobile menu dropdown */}
+      {mobile && menuOpen && (
+        <div style={{
+          padding: "8px 0 24px", borderTop: `1px solid ${BRAND.border}`,
+          display: "flex", flexDirection: "column", gap: 0,
+        }}>
           {links.map((l) => (
-            <a key={l.href} href={l.href} onClick={e => { e.preventDefault(); document.getElementById(l.href.slice(1))?.scrollIntoView({ behavior: "smooth" }); }} style={{
-              color: BRAND.textMuted, textDecoration: "none", fontSize: 14,
-              fontFamily: "'DM Sans', sans-serif", fontWeight: 500,
-              letterSpacing: "0.02em", transition: "color 0.2s", cursor: "pointer",
-            }}
-              onMouseEnter={e => e.target.style.color = BRAND.accent}
-              onMouseLeave={e => e.target.style.color = BRAND.textMuted}
-            >{l.label}</a>
+            <a key={l.href} href={`#${l.href}`} onClick={e => { e.preventDefault(); scrollTo(l.href); setMenuOpen(false); }} style={{
+              color: BRAND.textMuted, textDecoration: "none", fontSize: 16, padding: "14px 0",
+              fontFamily: "'DM Sans', sans-serif", fontWeight: 500, borderBottom: `1px solid ${BRAND.border}22`,
+            }}>{l.label}</a>
           ))}
           <a href="https://calendly.com/cyberguardrail/20min" target="_blank" rel="noopener noreferrer" style={{
-            background: BRAND.accent, color: BRAND.dark, padding: "10px 22px",
-            borderRadius: 6, textDecoration: "none", fontSize: 14, fontWeight: 600,
-            fontFamily: "'DM Sans', sans-serif", transition: "all 0.2s",
-          }}
-            onMouseEnter={e => { e.target.style.background = BRAND.accentDim; e.target.style.transform = "translateY(-1px)"; }}
-            onMouseLeave={e => { e.target.style.background = BRAND.accent; e.target.style.transform = "translateY(0)"; }}
-          >Free Consultation</a>
+            background: BRAND.accent, color: BRAND.dark, padding: "14px 24px", marginTop: 12,
+            borderRadius: 8, textDecoration: "none", fontSize: 16, fontWeight: 600, textAlign: "center",
+            fontFamily: "'DM Sans', sans-serif",
+          }}>Free Consultation</a>
         </div>
-      </div>
+      )}
     </nav>
   );
 }
@@ -231,7 +281,6 @@ function Hero() {
           ))}
         </div>
       </div>
-      <style>{`@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }`}</style>
     </section>
   );
 }
@@ -246,7 +295,7 @@ function Problem() {
   ];
 
   return (
-    <section id="problem" style={{ background: BRAND.darkAlt, padding: "100px 24px", position: "relative" }}>
+    <section id="problem" style={{ background: BRAND.darkAlt, padding: "clamp(60px, 10vw, 100px) 24px", position: "relative" }}>
       <div style={{
         position: "absolute", top: 0, left: 0, right: 0, height: 1,
         background: `linear-gradient(90deg, transparent, ${BRAND.accent}44, transparent)`,
@@ -275,7 +324,7 @@ function Problem() {
           </div>
         </FadeIn>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: 20 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(250px, 100%), 1fr))", gap: 20 }}>
           {stats.map((s, i) => (
             <FadeIn key={i} delay={i * 0.12}>
               <div style={{
@@ -368,7 +417,7 @@ function Services() {
   ];
 
   return (
-    <section id="services" style={{ background: BRAND.dark, padding: "100px 24px" }}>
+    <section id="services" style={{ background: BRAND.dark, padding: "clamp(60px, 10vw, 100px) 24px" }}>
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
         <FadeIn>
           <div style={{ textAlign: "center", marginBottom: 64 }}>
@@ -392,7 +441,7 @@ function Services() {
           </div>
         </FadeIn>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 24 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(320px, 100%), 1fr))", gap: 24 }}>
           {tiers.map((t, i) => (
             <FadeIn key={i} delay={i * 0.15}>
               <div style={{
@@ -480,7 +529,7 @@ function Deliverables() {
   ];
 
   return (
-    <section style={{ background: BRAND.darkAlt, padding: "100px 24px" }}>
+    <section style={{ background: BRAND.darkAlt, padding: "clamp(60px, 10vw, 100px) 24px" }}>
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
         <FadeIn>
           <div style={{ textAlign: "center", marginBottom: 56 }}>
@@ -497,7 +546,7 @@ function Deliverables() {
           </div>
         </FadeIn>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 16 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(320px, 100%), 1fr))", gap: 16 }}>
           {docs.map((d, i) => (
             <FadeIn key={i} delay={i * 0.08}>
               <div style={{
@@ -525,7 +574,7 @@ function Deliverables() {
 /* ── CASE STUDY ── */
 function CaseStudy() {
   return (
-    <section id="work" style={{ background: BRAND.dark, padding: "100px 24px" }}>
+    <section id="work" style={{ background: BRAND.dark, padding: "clamp(60px, 10vw, 100px) 24px" }}>
       <div style={{ maxWidth: 1000, margin: "0 auto" }}>
         <FadeIn>
           <div style={{ textAlign: "center", marginBottom: 56 }}>
@@ -545,7 +594,7 @@ function CaseStudy() {
         <FadeIn delay={0.15}>
           <div style={{
             background: BRAND.card, border: `1px solid ${BRAND.border}`,
-            borderRadius: 16, padding: "48px 40px", position: "relative", overflow: "hidden",
+            borderRadius: 16, padding: "clamp(24px, 5vw, 48px) clamp(20px, 4vw, 40px)", position: "relative", overflow: "hidden",
           }}>
             <div style={{
               position: "absolute", top: 0, left: 0, width: 4, height: "100%",
@@ -564,11 +613,11 @@ function CaseStudy() {
             </div>
 
             <h3 style={{
-              fontFamily: "'Playfair Display', Georgia, serif", fontSize: 24, fontWeight: 700,
+              fontFamily: "'Playfair Display', Georgia, serif", fontSize: "clamp(18px, 3vw, 24px)", fontWeight: 700,
               color: BRAND.text, margin: "0 0 20px",
             }}>Provincial Regulatory Association · 5 Employees · 100% Remote</h3>
 
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 40, marginBottom: 32 }}>
+            <div className="two-col-grid" style={{ display: "grid", gap: 40, marginBottom: 32 }}>
               <div>
                 <h4 style={{ fontSize: 14, fontWeight: 600, color: BRAND.danger, fontFamily: "'DM Sans', sans-serif", margin: "0 0 12px", textTransform: "uppercase", letterSpacing: "0.08em" }}>
                   The Challenge
@@ -617,7 +666,7 @@ function CaseStudy() {
 /* ── ABOUT ── */
 function About() {
   return (
-    <section id="about" style={{ background: BRAND.darkAlt, padding: "100px 24px" }}>
+    <section id="about" style={{ background: BRAND.darkAlt, padding: "clamp(60px, 10vw, 100px) 24px" }}>
       <div style={{ maxWidth: 900, margin: "0 auto" }}>
         <FadeIn>
           <div style={{ textAlign: "center", marginBottom: 48 }}>
@@ -637,7 +686,7 @@ function About() {
         <FadeIn delay={0.15}>
           <div style={{
             background: BRAND.card, border: `1px solid ${BRAND.border}`,
-            borderRadius: 16, padding: "48px 40px",
+            borderRadius: 16, padding: "clamp(24px, 5vw, 48px) clamp(20px, 4vw, 40px)",
           }}>
             <div style={{ display: "flex", gap: 32, alignItems: "flex-start", flexWrap: "wrap" }}>
               <div style={{
@@ -695,7 +744,7 @@ function Process() {
   ];
 
   return (
-    <section style={{ background: BRAND.dark, padding: "100px 24px" }}>
+    <section style={{ background: BRAND.dark, padding: "clamp(60px, 10vw, 100px) 24px" }}>
       <div style={{ maxWidth: 900, margin: "0 auto" }}>
         <FadeIn>
           <div style={{ textAlign: "center", marginBottom: 56 }}>
@@ -772,7 +821,7 @@ function Contact() {
   };
 
   return (
-    <section id="contact" style={{ background: BRAND.darkAlt, padding: "100px 24px", position: "relative" }}>
+    <section id="contact" style={{ background: BRAND.darkAlt, padding: "clamp(60px, 10vw, 100px) 24px", position: "relative" }}>
       <div style={{
         position: "absolute", top: 0, left: 0, right: 0, height: 1,
         background: `linear-gradient(90deg, transparent, ${BRAND.accent}44, transparent)`,
@@ -832,7 +881,7 @@ function Contact() {
           {/* Contact form */}
           <div style={{
             background: BRAND.card, border: `1px solid ${BRAND.border}`,
-            borderRadius: 16, padding: "40px 36px",
+            borderRadius: 16, padding: "clamp(24px, 5vw, 40px) clamp(20px, 4vw, 36px)",
           }}>
             {submitted ? (
               <div style={{ textAlign: "center", padding: "40px 0" }}>
@@ -850,7 +899,7 @@ function Contact() {
                   fontSize: 20, fontWeight: 700, color: BRAND.text, margin: "0 0 24px",
                   fontFamily: "'DM Sans', sans-serif",
                 }}>Send a message</h3>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
+                <div className="two-col-grid" style={{ display: "grid", gap: 16, marginBottom: 16 }}>
                   <div>
                     <label style={{ display: "block", fontSize: 13, color: BRAND.textMuted, fontFamily: "'DM Sans', sans-serif", marginBottom: 6, fontWeight: 500 }}>Name *</label>
                     <input
@@ -875,7 +924,7 @@ function Contact() {
                     />
                   </div>
                 </div>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
+                <div className="two-col-grid" style={{ display: "grid", gap: 16, marginBottom: 16 }}>
                   <div>
                     <label style={{ display: "block", fontSize: 13, color: BRAND.textMuted, fontFamily: "'DM Sans', sans-serif", marginBottom: 6, fontWeight: 500 }}>Organization</label>
                     <input
@@ -962,18 +1011,16 @@ function Footer() {
           </p>
         </div>
         <div style={{ display: "flex", gap: 28 }}>
-          {["LinkedIn", "Email"].map((l, i) => (
-            <a key={i} href="#" style={{
-              fontSize: 14, color: BRAND.textMuted, textDecoration: "none",
-              fontFamily: "'DM Sans', sans-serif", transition: "color 0.2s",
-            }}
-              onMouseEnter={e => e.target.style.color = BRAND.accent}
-              onMouseLeave={e => e.target.style.color = BRAND.textMuted}
-            >{l}</a>
-          ))}
+          <a href="mailto:info@anjimanagementconsulting.com" style={{
+            fontSize: 14, color: BRAND.textMuted, textDecoration: "none",
+            fontFamily: "'DM Sans', sans-serif", transition: "color 0.2s",
+          }}
+            onMouseEnter={e => e.target.style.color = BRAND.accent}
+            onMouseLeave={e => e.target.style.color = BRAND.textMuted}
+          >info@anjimanagementconsulting.com</a>
         </div>
         <div style={{ fontSize: 13, color: BRAND.textDim, fontFamily: "'DM Sans', sans-serif" }}>
-          © 2025 CyberGuardrail. All rights reserved.
+          © 2026 CyberGuardrail. All rights reserved.
         </div>
       </div>
     </footer>
@@ -984,6 +1031,14 @@ function Footer() {
 export default function App() {
   return (
     <div style={{ background: BRAND.dark, minHeight: "100vh" }}>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@400;500;600;700&display=swap');
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+        .two-col-grid { grid-template-columns: 1fr 1fr; }
+        @media (max-width: 768px) {
+          .two-col-grid { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
       <Nav />
       <Hero />
       <Problem />
