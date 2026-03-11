@@ -99,8 +99,8 @@ function Nav() {
             background: `linear-gradient(135deg, ${BRAND.accent}, ${BRAND.accentDim})`,
             display: "flex", alignItems: "center", justifyContent: "center",
             fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 700,
-            fontSize: 16, color: BRAND.dark
-          }}>C</div>
+            fontSize: 12, color: BRAND.dark
+          }}>CG</div>
           <span style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: mobile ? 17 : 20, fontWeight: 600, color: BRAND.text, letterSpacing: "-0.02em" }}>
             CyberGuardrail
           </span>
@@ -1000,8 +1000,8 @@ function Footer() {
               background: `linear-gradient(135deg, ${BRAND.accent}, ${BRAND.accentDim})`,
               display: "flex", alignItems: "center", justifyContent: "center",
               fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 700,
-              fontSize: 14, color: BRAND.dark
-            }}>C</div>
+              fontSize: 11, color: BRAND.dark
+            }}>CG</div>
             <span style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 16, fontWeight: 600, color: BRAND.text }}>
               CyberGuardrail
             </span>
