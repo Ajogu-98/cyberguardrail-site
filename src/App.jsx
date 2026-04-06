@@ -726,6 +726,105 @@ function CaseStudy() {
   );
 }
 
+/* ── TESTIMONIAL ── */
+function Testimonial() {
+  const mobile = useIsMobile();
+  return (
+    <section style={{ background: BRAND.dark, padding: "clamp(60px, 10vw, 100px) 24px" }}>
+      <div style={{ maxWidth: 900, margin: "0 auto" }}>
+        <FadeIn>
+          <div style={{ textAlign: "center", marginBottom: 48 }}>
+            <span style={{
+              fontSize: 13, fontWeight: 600, color: BRAND.accent, letterSpacing: "0.12em",
+              textTransform: "uppercase", fontFamily: "'DM Sans', sans-serif",
+            }}>WHAT CLIENTS SAY</span>
+            <h2 style={{
+              fontFamily: "'Playfair Display', Georgia, serif", fontSize: "clamp(28px, 3.5vw, 40px)",
+              fontWeight: 700, color: BRAND.text, margin: "16px 0 0", letterSpacing: "-0.02em",
+            }}>
+              Don't take our word <span style={{ color: BRAND.accent }}>for it</span>.
+            </h2>
+          </div>
+        </FadeIn>
+
+        <FadeIn delay={0.15}>
+          <div style={{
+            background: BRAND.card, border: `1px solid ${BRAND.border}`,
+            borderRadius: 16, padding: mobile ? "32px 24px" : "56px 56px",
+            position: "relative", overflow: "hidden",
+          }}>
+            <div style={{
+              position: "absolute", top: 0, left: 0, width: 4, height: "100%",
+              background: `linear-gradient(180deg, ${BRAND.accent}, transparent)`,
+            }} />
+
+            <div style={{
+              fontFamily: "'Playfair Display', Georgia, serif",
+              fontSize: mobile ? 64 : 96, color: BRAND.accent, opacity: 0.25,
+              lineHeight: 0.5, marginBottom: 8, height: mobile ? 32 : 48,
+            }}>"</div>
+
+            <p style={{
+              fontSize: mobile ? 15 : 17, color: BRAND.text,
+              fontFamily: "'DM Sans', sans-serif", lineHeight: 1.8,
+              margin: "0 0 20px",
+            }}>
+              When we brought Toroko of CyberGuardrail on board to support a cybersecurity project for one of our clients, we knew we needed someone who could hit the ground running and deliver real, usable work. That is exactly what we got.
+            </p>
+
+            <p style={{
+              fontSize: mobile ? 15 : 17, color: BRAND.text,
+              fontFamily: "'DM Sans', sans-serif", lineHeight: 1.8,
+              margin: "0 0 20px",
+            }}>
+              Toroko produced a full suite of policy documentation for us, including incident response, disaster recovery, business continuity, and patch management policies. Each deliverable was thorough, professional, and required minimal revision. Beyond the policy work, we also received support on product commercialization strategy, including competitive analysis, ROI modeling, and pricing structure development for our cybersecurity reporting service.
+            </p>
+
+            <p style={{
+              fontSize: mobile ? 15 : 17, color: BRAND.text,
+              fontFamily: "'DM Sans', sans-serif", lineHeight: 1.8,
+              margin: "0 0 20px",
+            }}>
+              What stood out was the combination of technical knowledge and business thinking. Deadlines were always met, communication was consistent, and every assignment was approached with a level of care and precision that you do not always find. Documentation and policy work can feel like a checkbox exercise with the wrong partner. <span style={{ color: BRAND.accent, fontWeight: 600 }}>With Toroko, it felt like strategy.</span>
+            </p>
+
+            <p style={{
+              fontSize: mobile ? 15 : 17, color: BRAND.text,
+              fontFamily: "'DM Sans', sans-serif", lineHeight: 1.8,
+              margin: "0 0 32px",
+            }}>
+              We are grateful for the collaboration and would not hesitate to recommend Toroko and CyberGuardrail to any organization looking to get serious about their security posture.
+            </p>
+
+            <div style={{
+              display: "flex", alignItems: "center", gap: 14,
+              paddingTop: 24, borderTop: `1px solid ${BRAND.border}`,
+            }}>
+              <div style={{
+                width: 44, height: 44, borderRadius: 8,
+                background: `linear-gradient(135deg, ${BRAND.accent}, ${BRAND.accentDim})`,
+                display: "flex", alignItems: "center", justifyContent: "center",
+                fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 700,
+                fontSize: 16, color: BRAND.dark, flexShrink: 0,
+              }}>TGT</div>
+              <div>
+                <div style={{
+                  fontSize: 15, fontWeight: 700, color: BRAND.text,
+                  fontFamily: "'DM Sans', sans-serif", marginBottom: 2,
+                }}>TGT Solutions Inc.</div>
+                <div style={{
+                  fontSize: 13, color: BRAND.textMuted,
+                  fontFamily: "'DM Sans', sans-serif",
+                }}>Technology Consulting</div>
+              </div>
+            </div>
+          </div>
+        </FadeIn>
+      </div>
+    </section>
+  );
+}
+
 /* ── ABOUT ── */
 function About() {
   return (
@@ -1107,6 +1206,7 @@ export default function App() {
       <Problem />
       <Services />
       <CaseStudy />
+      <Testimonial />
       <Process />
       <About />
       <Contact />
