@@ -214,11 +214,13 @@ function Hero() {
             opacity: loaded ? 1 : 0, transform: loaded ? "translateY(0)" : "translateY(24px)",
             transition: "all 0.7s ease 0.35s",
           }}>
-            Cybersecurity planning
+            Know your biggest
             <br />
-            <span style={{ color: BRAND.accent }}>small businesses</span>
+            <span style={{ color: BRAND.accent }}>cyber and AI risks</span>
             <br />
-            can actually afford.
+            before they become
+            <br />
+            expensive problems.
           </h1>
 
           <p style={{
@@ -227,9 +229,10 @@ function Hero() {
             opacity: loaded ? 1 : 0, transform: loaded ? "translateY(0)" : "translateY(20px)",
             transition: "all 0.7s ease 0.5s",
           }}>
-            Most SMBs can't afford a full security team — but they can't afford a breach either.
-            We deliver enterprise-grade security documentation, incident response plans, and
-            compliance frameworks at a fraction of the cost.
+            Practical risk assessments for small businesses, nonprofits, and schools
+            that don't have an in-house security team. We identify your highest-priority
+            risks, show you what to address first, and help you build the policies and
+            response plans you actually need.
           </p>
 
           <div style={{
@@ -246,9 +249,9 @@ function Hero() {
               onMouseEnter={e => { e.target.style.transform = "translateY(-2px)"; e.target.style.boxShadow = "0 6px 28px rgba(212,168,83,0.35)"; }}
               onMouseLeave={e => { e.target.style.transform = "translateY(0)"; e.target.style.boxShadow = "0 4px 20px rgba(212,168,83,0.25)"; }}
             >
-              Book a Free Discovery Call →
+              Book a Free Risk Discovery Call →
             </a>
-            <a href="#services" onClick={e => { e.preventDefault(); document.getElementById("services")?.scrollIntoView({ behavior: "smooth" }); }} style={{
+            <a href="#services" onClick={e => { e.preventDefault(); scrollTo("services"); }} style={{
               background: "transparent", color: BRAND.text, padding: "14px 32px",
               borderRadius: 8, textDecoration: "none", fontSize: 16, fontWeight: 500,
               fontFamily: "'DM Sans', sans-serif", border: `1px solid ${BRAND.border}`,
@@ -257,7 +260,7 @@ function Hero() {
               onMouseEnter={e => { e.target.style.borderColor = BRAND.accent; e.target.style.color = BRAND.accent; }}
               onMouseLeave={e => { e.target.style.borderColor = BRAND.border; e.target.style.color = BRAND.text; }}
             >
-              View Services
+              See How the Assessment Works
             </a>
           </div>
         </div>
@@ -285,24 +288,18 @@ function Hero() {
   );
 }
 
-/* ── STATS / PROBLEM ── */
+/* ── PROBLEM ── */
 function Problem() {
-  const stats = [
-    { number: "43%", label: "of cyberattacks target small businesses", source: "Verizon 2023 DBIR" },
-    { number: "60%", label: "of SMBs close within 6 months of a cyberattack", source: "National Cyber Security Alliance" },
-    { number: "$164K", label: "average cost of a data breach for small businesses", source: "IBM Cost of a Data Breach Report" },
-    { number: "51%", label: "of small businesses have no cybersecurity measures at all", source: "Digital.com Survey" },
-  ];
-
+  const mobile = useIsMobile();
   return (
     <section id="problem" style={{ background: BRAND.darkAlt, padding: "clamp(60px, 10vw, 100px) 24px", position: "relative" }}>
       <div style={{
         position: "absolute", top: 0, left: 0, right: 0, height: 1,
         background: `linear-gradient(90deg, transparent, ${BRAND.accent}44, transparent)`,
       }} />
-      <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+      <div style={{ maxWidth: 1000, margin: "0 auto" }}>
         <FadeIn>
-          <div style={{ textAlign: "center", marginBottom: 64 }}>
+          <div style={{ textAlign: "center", marginBottom: 48 }}>
             <span style={{
               fontSize: 13, fontWeight: 600, color: BRAND.accent, letterSpacing: "0.12em",
               textTransform: "uppercase", fontFamily: "'DM Sans', sans-serif",
@@ -311,45 +308,42 @@ function Problem() {
               fontFamily: "'Playfair Display', Georgia, serif", fontSize: "clamp(30px, 4vw, 44px)",
               fontWeight: 700, color: BRAND.text, margin: "16px 0 20px", letterSpacing: "-0.02em",
             }}>
-              Small businesses are the <span style={{ color: BRAND.danger }}>biggest target</span>
-              <br />with the <span style={{ color: BRAND.danger }}>least protection</span>.
+              You don't need enterprise-sized cybersecurity.
+              <br />
+              <span style={{ color: BRAND.accent }}>You need to know which risks matter most.</span>
             </h2>
             <p style={{
-              fontSize: 17, color: BRAND.textMuted, maxWidth: 600, margin: "0 auto",
+              fontSize: 17, color: BRAND.textMuted, maxWidth: 640, margin: "0 auto",
               fontFamily: "'DM Sans', sans-serif", lineHeight: 1.7,
             }}>
-              Attackers know that small and midsize businesses lack dedicated security teams. 
-              The numbers tell the story — and it doesn't have to be yours.
+              Most small organizations aren't hacked — they're left open. There's a difference.
+              One is targeted. The other is just found. We help you find the gaps before someone else does.
             </p>
           </div>
         </FadeIn>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(250px, 100%), 1fr))", gap: 20 }}>
-          {stats.map((s, i) => (
+        <div style={{ display: "grid", gridTemplateColumns: mobile ? "1fr" : "1fr 1fr 1fr", gap: 20 }}>
+          {[
+            { number: "70.5%", label: "of data breaches in 2024 involved small and midsize businesses — more than large organizations.", source: "Verizon 2024 DBIR" },
+            { number: "88%", label: "of data breaches are caused by human error — not sophisticated attacks.", source: "Stanford University / Tessian Research" },
+            { number: "51%", label: "of small businesses report having no cybersecurity measures in place at all.", source: "Verizon Small Business Survey" },
+          ].map((s, i) => (
             <FadeIn key={i} delay={i * 0.12}>
               <div style={{
                 background: BRAND.card, border: `1px solid ${BRAND.border}`,
                 borderRadius: 12, padding: "36px 28px", transition: "all 0.3s",
                 cursor: "default", position: "relative", overflow: "hidden",
               }}
-                onMouseEnter={e => {
-                  e.currentTarget.style.borderColor = BRAND.accent + "55";
-                  e.currentTarget.style.transform = "translateY(-4px)";
-                  e.currentTarget.style.boxShadow = `0 12px 40px ${BRAND.accentGlow}`;
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.borderColor = BRAND.border;
-                  e.currentTarget.style.transform = "translateY(0)";
-                  e.currentTarget.style.boxShadow = "none";
-                }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = BRAND.accent + "55"; e.currentTarget.style.transform = "translateY(-4px)"; }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = BRAND.border; e.currentTarget.style.transform = "translateY(0)"; }}
               >
                 <div style={{
                   fontSize: 48, fontWeight: 700, color: BRAND.accent,
                   fontFamily: "'Playfair Display', Georgia, serif", lineHeight: 1, marginBottom: 12,
                 }}>{s.number}</div>
                 <div style={{
-                  fontSize: 16, color: BRAND.text, fontFamily: "'DM Sans', sans-serif",
-                  lineHeight: 1.5, marginBottom: 16,
+                  fontSize: 15, color: BRAND.text, fontFamily: "'DM Sans', sans-serif",
+                  lineHeight: 1.55, marginBottom: 16,
                 }}>{s.label}</div>
                 <div style={{
                   fontSize: 12, color: BRAND.textDim, fontFamily: "'DM Sans', sans-serif",
@@ -364,6 +358,79 @@ function Problem() {
   );
 }
 
+/* ── WHO WE HELP ── */
+function WhoWeHelp() {
+  const mobile = useIsMobile();
+  return (
+    <section style={{ background: BRAND.dark, padding: "clamp(60px, 10vw, 100px) 24px" }}>
+      <div style={{ maxWidth: 1000, margin: "0 auto" }}>
+        <FadeIn>
+          <div style={{ textAlign: "center", marginBottom: 48 }}>
+            <span style={{
+              fontSize: 13, fontWeight: 600, color: BRAND.accent, letterSpacing: "0.12em",
+              textTransform: "uppercase", fontFamily: "'DM Sans', sans-serif",
+            }}>WHO WE HELP</span>
+            <h2 style={{
+              fontFamily: "'Playfair Display', Georgia, serif", fontSize: "clamp(28px, 3.5vw, 40px)",
+              fontWeight: 700, color: BRAND.text, margin: "16px 0 0", letterSpacing: "-0.02em",
+            }}>
+              Built for organizations that <span style={{ color: BRAND.accent }}>need it most</span>.
+            </h2>
+          </div>
+        </FadeIn>
+
+        <div style={{ display: "grid", gridTemplateColumns: mobile ? "1fr" : "1fr 1fr", gap: 24 }}>
+          <FadeIn delay={0.1}>
+            <div style={{
+              background: BRAND.card, border: `1px solid ${BRAND.border}`, borderRadius: 16,
+              padding: "36px 32px", height: "100%", transition: "all 0.3s",
+            }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = BRAND.accent + "55"; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = BRAND.border; }}
+            >
+              <div style={{ fontSize: 36, marginBottom: 16 }}>🏢</div>
+              <h3 style={{
+                fontFamily: "'Playfair Display', Georgia, serif", fontSize: 22, fontWeight: 700,
+                color: BRAND.text, margin: "0 0 12px",
+              }}>Small Businesses & Nonprofits</h3>
+              <p style={{
+                fontSize: 15, color: BRAND.textMuted, fontFamily: "'DM Sans', sans-serif",
+                lineHeight: 1.7, margin: 0,
+              }}>
+                Organizations that need practical cyber, AI, vendor, and operational risk guidance
+                but don't have dedicated security or GRC teams.
+              </p>
+            </div>
+          </FadeIn>
+
+          <FadeIn delay={0.2}>
+            <div style={{
+              background: BRAND.card, border: `1px solid ${BRAND.border}`, borderRadius: 16,
+              padding: "36px 32px", height: "100%", transition: "all 0.3s",
+            }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = BRAND.accent + "55"; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = BRAND.border; }}
+            >
+              <div style={{ fontSize: 36, marginBottom: 16 }}>🏫</div>
+              <h3 style={{
+                fontFamily: "'Playfair Display', Georgia, serif", fontSize: 22, fontWeight: 700,
+                color: BRAND.text, margin: "0 0 12px",
+              }}>Schools & Education Organizations</h3>
+              <p style={{
+                fontSize: 15, color: BRAND.textMuted, fontFamily: "'DM Sans', sans-serif",
+                lineHeight: 1.7, margin: 0,
+              }}>
+                Schools navigating cybersecurity, AI use, student and staff data protection,
+                third-party vendors, and business-continuity risks.
+              </p>
+            </div>
+          </FadeIn>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ── SERVICES ── */
 function Services() {
   const [activeTab, setActiveTab] = useState(0);
@@ -371,104 +438,49 @@ function Services() {
 
   const tabs = [
     {
-      id: "compliance",
-      label: "Compliance Obligations",
-      icon: "📋",
-      title: "Know Your Compliance Obligations",
-      subtitle: "The rules that apply to your business depend on what your business does — not how big it is.",
-      content: (
-        <div>
-          <div style={{ display: "grid", gridTemplateColumns: mobile ? "1fr" : "1fr 1fr 1fr", gap: 16, marginBottom: 32 }}>
-            {[
-              { name: "HIPAA", color: "#7a2d4a", trigger: "Your business handles health information", desc: "Health Insurance Portability and Accountability Act — protects patient health data. Applies to medical offices, health apps, wellness coaches, and any business handling health records." },
-              { name: "PCI DSS", color: "#8a7632", trigger: "Your business accepts credit or debit card payments", desc: "Payment Card Industry Data Security Standard — protects cardholder data. Applies to every business that processes, stores, or transmits card payments, from solo shops to enterprises." },
-              { name: "GDPR", color: "#7a2d4a", trigger: "Your business collects data from EU customers", desc: "General Data Protection Regulation — protects personal data and privacy. If you sell online and reach European customers, GDPR applies to you regardless of where you are located." },
-            ].map((reg, i) => (
-              <div key={i} style={{
-                background: BRAND.card, border: `1px solid ${BRAND.border}`, borderRadius: 12,
-                padding: "24px 20px", transition: "all 0.3s",
-              }}>
-                <div style={{
-                  display: "inline-block", background: reg.color, color: "#fff",
-                  padding: "6px 16px", borderRadius: 6, fontSize: 14, fontWeight: 700,
-                  fontFamily: "'DM Sans', sans-serif", marginBottom: 16, letterSpacing: "0.02em",
-                }}>{reg.name}</div>
-                <div style={{ marginBottom: 12 }}>
-                  <span style={{ color: BRAND.accent, fontSize: 13, fontWeight: 600, fontFamily: "'DM Sans', sans-serif" }}>IF: </span>
-                  <span style={{ color: BRAND.text, fontSize: 14, fontWeight: 600, fontFamily: "'DM Sans', sans-serif" }}>{reg.trigger}</span>
-                </div>
-                <div style={{ width: "100%", height: 2, background: BRAND.accent, opacity: 0.3, marginBottom: 12 }} />
-                <p style={{ fontSize: 13, color: BRAND.textMuted, fontFamily: "'DM Sans', sans-serif", lineHeight: 1.6, margin: 0 }}>{reg.desc}</p>
-              </div>
-            ))}
-          </div>
-
-          <div style={{
-            background: BRAND.accentGlow, border: `1px solid ${BRAND.accent}33`,
-            borderRadius: 10, padding: "16px 20px", marginBottom: 24,
-          }}>
-            <p style={{
-              fontSize: 15, color: BRAND.accent, fontFamily: "'DM Sans', sans-serif",
-              fontStyle: "italic", fontWeight: 500, margin: 0, textAlign: "center",
-            }}>Every business operates under at least one of these three types of requirements:</p>
-          </div>
-
-          <div style={{ display: "grid", gridTemplateColumns: mobile ? "1fr" : "1fr 1fr 1fr", gap: 16 }}>
-            {[
-              { type: "FRAMEWORK", name: "NIST CSF", desc: "A voluntary guide of best practices for managing cybersecurity risk. Think of it as a structured playbook you choose to follow.", color: BRAND.card },
-              { type: "STANDARD", name: "ISO 27001", desc: "A formal set of requirements you can certify against to prove your security controls meet an internationally recognized bar.", color: BRAND.card },
-              { type: "REGULATION / LAW", name: "HIPAA • GDPR • PCI DSS", desc: "Legally binding rules you must comply with based on your industry, data type, or location. Non-compliance can mean fines or shutdowns.", color: "#3d1f2e" },
-            ].map((fw, i) => (
-              <div key={i} style={{
-                background: fw.color, border: `1px solid ${BRAND.border}`, borderRadius: 12,
-                padding: "24px 20px",
-              }}>
-                <div style={{
-                  fontSize: 11, fontWeight: 700, color: BRAND.accent, letterSpacing: "0.1em",
-                  fontFamily: "'DM Sans', sans-serif", marginBottom: 8, textTransform: "uppercase",
-                }}>{fw.type}</div>
-                <div style={{
-                  fontSize: 18, fontWeight: 700, color: BRAND.text, fontFamily: "'Playfair Display', Georgia, serif",
-                  marginBottom: 12,
-                }}>{fw.name}</div>
-                <p style={{ fontSize: 13, color: BRAND.textMuted, fontFamily: "'DM Sans', sans-serif", lineHeight: 1.6, margin: 0 }}>{fw.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      ),
-    },
-    {
-      id: "governance",
-      label: "Governance",
-      icon: "⚖️",
-      title: "Governance, Risk & Compliance",
-      subtitle: "Frameworks, policies, and documentation that give your business a defensible security posture — before someone asks for proof.",
+      id: "assessment",
+      label: "Risk Assessment",
+      icon: "🔍",
+      title: "Cyber & AI Risk Readiness Assessment",
+      subtitle: "Your flagship starting point. We evaluate your current risk posture across cybersecurity, AI use, vendor exposure, and operational resilience — and tell you exactly what to address first.",
       capabilities: [
-        { name: "Risk Gap Analysis", desc: "Identify vulnerabilities, control gaps, and prioritized remediation actions mapped to NIST CSF." },
-        { name: "Compliance Readiness Snapshot", desc: "High-level gap view against HIPAA, PCI DSS, GDPR, or applicable frameworks so you know where you stand." },
-        { name: "Business Continuity Plan", desc: "Documented procedures to maintain critical operations during and after disruptions." },
+        { name: "Cybersecurity Assessment", desc: "In-depth review of your assets, systems, people, and current security posture with findings ranked by likelihood and business impact." },
+        { name: "AI Risk Evaluation", desc: "Assess how your organization uses AI tools, where data is being shared, and what guardrails are missing." },
+        { name: "Risk Gap Analysis", desc: "Your gaps identified and prioritized against NIST CSF — mapped to what matters most for your size and industry." },
         { name: "Prioritized Remediation Roadmap", desc: "Step-by-step action plan to close your highest-priority gaps in order of business impact." },
-        { name: "Implementation Guidance", desc: "Practical next steps your team can act on immediately after delivery — not a shelf document." },
-        { name: "Executive Summary for Leadership", desc: "Plain-language findings your leadership team and board can act on without a security background." },
+        { name: "Executive Summary for Leadership", desc: "Plain-language findings your leadership team can act on without a security background." },
+        { name: "Compliance Readiness Snapshot", desc: "High-level gap view against HIPAA, PCI DSS, GDPR, or applicable frameworks so you know where you stand." },
       ],
-      metric: "Fewer compliance surprises and stronger documentation that satisfies insurers, auditors, and clients.",
+      metric: "A clear, prioritized picture of your risk landscape — so you invest in the right protections, not everything at once.",
     },
     {
-      id: "security",
-      label: "Security & Privacy",
+      id: "response",
+      label: "Incident Response & Continuity",
       icon: "🛡️",
-      title: "Security Operations & Privacy",
-      subtitle: "Hands-on security assessments, response planning, and technical safeguards that protect your data, your people, and your reputation.",
+      title: "Incident Response & Business Continuity",
+      subtitle: "When something goes wrong, your team needs a plan — not a panic. We build the response and recovery documentation that keeps your organization operational.",
       capabilities: [
-        { name: "Cybersecurity Assessment", desc: "In-depth review of your assets, systems, people, and current security posture with findings ranked by likelihood and impact." },
         { name: "Incident Response Plan", desc: "Written procedures for what your team does in the first 60 minutes of an incident — and every step after." },
         { name: "Disaster Recovery Plan", desc: "Tested recovery objectives and a clear sequence for restoring operations when systems go down." },
-        { name: "Patch Management Policy", desc: "A defined process for keeping systems updated, with accountability and timelines built in." },
+        { name: "Business Continuity Plan", desc: "Documented procedures to maintain critical operations during and after disruptions." },
         { name: "Tabletop Exercises", desc: "Simulated incident scenarios facilitated with your leadership team to test readiness and reveal gaps before a real attack does." },
+      ],
+      metric: "Confidence that your team knows what to do when it matters most — tested and documented before an incident forces the question.",
+    },
+    {
+      id: "policies",
+      label: "Policies & Compliance",
+      icon: "📋",
+      title: "Policies & Compliance Readiness",
+      subtitle: "The documentation your cyber insurer, clients, and regulators expect to see. Built for your organization — not a template.",
+      capabilities: [
+        { name: "Patch Management Policy", desc: "A defined process for keeping systems updated, with accountability and timelines built in." },
+        { name: "Security Policies", desc: "Acceptable use, data handling, access control, and other foundational policies tailored to your operations." },
+        { name: "NIST CSF Alignment", desc: "Map your existing controls to the NIST Cybersecurity Framework and document your compliance posture." },
+        { name: "Implementation Guidance", desc: "Practical next steps your team can act on immediately after delivery — not a shelf document." },
         { name: "12-Month Security Posture Review", desc: "Formal review at the 12-month mark to assess what has changed, what has improved, and what needs attention." },
       ],
-      metric: "Reduced cyber risk and improved security practices that protect your business and strengthen customer trust.",
+      metric: "Documentation that satisfies insurers, auditors, and clients — and that your team can actually follow.",
     },
   ];
 
@@ -554,16 +566,15 @@ function Services() {
               }}>{active.subtitle}</p>
             </div>
 
-            {/* Compliance tab has custom content */}
-            {active.content ? active.content : (
-              <div>
-                <div style={{
-                  fontSize: 12, fontWeight: 700, color: BRAND.accent, letterSpacing: "0.1em",
-                  textTransform: "uppercase", fontFamily: "'DM Sans', sans-serif", marginBottom: 20,
-                }}>KEY CAPABILITIES</div>
+            {/* Tab capabilities */}
+            <div>
+              <div style={{
+                fontSize: 12, fontWeight: 700, color: BRAND.accent, letterSpacing: "0.1em",
+                textTransform: "uppercase", fontFamily: "'DM Sans', sans-serif", marginBottom: 20,
+              }}>KEY CAPABILITIES</div>
 
-                <div style={{ display: "grid", gridTemplateColumns: mobile ? "1fr" : "1fr 1fr", gap: 16 }}>
-                  {active.capabilities.map((cap, i) => (
+              <div style={{ display: "grid", gridTemplateColumns: mobile ? "1fr" : "1fr 1fr", gap: 16 }}>
+                {active.capabilities && active.capabilities.map((cap, i) => (
                     <div key={i} style={{
                       display: "flex", gap: 12, alignItems: "flex-start",
                       padding: "16px 0",
@@ -610,22 +621,9 @@ function Services() {
                     padding: "14px 36px", borderRadius: 8, textDecoration: "none",
                     fontSize: 15, fontWeight: 600, fontFamily: "'DM Sans', sans-serif",
                     transition: "all 0.2s",
-                  }}>Book a Free Discovery Call →</a>
+                  }}>Book a Free Risk Discovery Call →</a>
                 </div>
               </div>
-            )}
-
-            {/* CTA for compliance tab too */}
-            {active.content && (
-              <div style={{ marginTop: 32, textAlign: "center" }}>
-                <a href="https://calendly.com/cyberguardrail/20min" target="_blank" rel="noopener noreferrer" style={{
-                  display: "inline-block", background: BRAND.accent, color: BRAND.dark,
-                  padding: "14px 36px", borderRadius: 8, textDecoration: "none",
-                  fontSize: 15, fontWeight: 600, fontFamily: "'DM Sans', sans-serif",
-                  transition: "all 0.2s",
-                }}>Not Sure What Applies to You? Let's Talk →</a>
-              </div>
-            )}
           </div>
         </FadeIn>
       </div>
@@ -649,7 +647,7 @@ function CaseStudy() {
               fontFamily: "'Playfair Display', Georgia, serif", fontSize: "clamp(28px, 3.5vw, 40px)",
               fontWeight: 700, color: BRAND.text, margin: "16px 0 0", letterSpacing: "-0.02em",
             }}>
-              From zero documentation to <span style={{ color: BRAND.accent }}>fully prepared</span>.
+              From no security program to a <span style={{ color: BRAND.accent }}>prioritized risk plan</span>.
             </h2>
           </div>
         </FadeIn>
@@ -680,25 +678,34 @@ function CaseStudy() {
               color: BRAND.text, margin: "0 0 20px",
             }}>Provincial Regulatory Association · 5 Employees · 100% Remote</h3>
 
-            <div className="two-col-grid" style={{ display: "grid", gap: 40, marginBottom: 32 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 24, marginBottom: 32 }}>
               <div>
                 <h4 style={{ fontSize: 14, fontWeight: 600, color: BRAND.danger, fontFamily: "'DM Sans', sans-serif", margin: "0 0 12px", textTransform: "uppercase", letterSpacing: "0.08em" }}>
-                  The Challenge
+                  Challenge
                 </h4>
                 <p style={{ fontSize: 15, color: BRAND.textMuted, fontFamily: "'DM Sans', sans-serif", lineHeight: 1.7, margin: 0 }}>
-                  No formal cybersecurity policies. Five different antivirus solutions with no central management.
-                  60% of devices running end-of-life Windows 10. Unencrypted backup drives. Needed documentation
-                  for cyber insurance compliance and regulatory expectations.
+                  Small organization with no formal security program or documented risk picture.
+                  Five different antivirus solutions with no central management. 60% of devices running
+                  end-of-life software. Unencrypted backups. No incident response procedures.
+                </p>
+              </div>
+              <div>
+                <h4 style={{ fontSize: 14, fontWeight: 600, color: BRAND.accent, fontFamily: "'DM Sans', sans-serif", margin: "0 0 12px", textTransform: "uppercase", letterSpacing: "0.08em" }}>
+                  Assessment
+                </h4>
+                <p style={{ fontSize: 15, color: BRAND.textMuted, fontFamily: "'DM Sans', sans-serif", lineHeight: 1.7, margin: 0 }}>
+                  Conducted a full cybersecurity assessment identifying security, governance,
+                  and resilience gaps. Mapped findings to NIST CSF and prioritized by business impact and likelihood.
                 </p>
               </div>
               <div>
                 <h4 style={{ fontSize: 14, fontWeight: 600, color: BRAND.success, fontFamily: "'DM Sans', sans-serif", margin: "0 0 12px", textTransform: "uppercase", letterSpacing: "0.08em" }}>
-                  The Solution
+                  Outcome
                 </h4>
                 <p style={{ fontSize: 15, color: BRAND.textMuted, fontFamily: "'DM Sans', sans-serif", lineHeight: 1.7, margin: 0 }}>
-                  Conducted a comprehensive cybersecurity assessment and delivered four executive-ready
-                  policy documents — Incident Response Plan, Disaster Recovery Plan, Patch Management Policy,
-                  and a detailed risk assessment report — all customized for a small, remote-first team.
+                  Delivered a prioritized risk assessment and four actionable security and continuity
+                  documents — Incident Response Plan, Disaster Recovery Plan, Patch Management Policy,
+                  and Business Continuity Plan — all customized for a small, remote-first team. Completed in two weeks.
                 </p>
               </div>
             </div>
@@ -863,23 +870,23 @@ function About() {
                   fontSize: 17, color: BRAND.text, fontFamily: "'DM Sans', sans-serif",
                   lineHeight: 1.8, margin: "0 0 20px",
                 }}>
-                  I'm a cybersecurity consultant who helps small and midsize organizations get prepared
-                  before an incident happens — not after. From security assessments and incident response planning
-                  to policy development and compliance frameworks, I deliver practical, actionable protection
-                  that fits your team and budget.
+                  I help small and midsize organizations identify and prioritize cyber, AI, and
+                  operational risks before those risks become expensive problems. From risk assessments
+                  and incident response planning to policy development and compliance readiness, I deliver
+                  practical, right-sized protection that fits your team and budget.
                 </p>
                 <p style={{
                   fontSize: 17, color: BRAND.textMuted, fontFamily: "'DM Sans', sans-serif",
                   lineHeight: 1.8, margin: "0 0 28px",
                 }}>
                   With hands-on experience in NIST CSF and ISO 27001, I use AI-powered research
-                  to deliver enterprise-quality work at SMB-friendly pricing. My documents are written
-                  for real people — not security experts — because a policy nobody understands is a
-                  policy nobody follows.
+                  to work efficiently without sacrificing quality. My documents are written for real
+                  people — not security experts — because a policy nobody understands is a policy
+                  nobody follows.
                 </p>
 
                 <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
-                  {["NIST CSF", "ISO 27001", "Incident Response", "Risk Assessment", "AI-Powered Delivery"].map((tag, i) => (
+                  {["Risk Assessment", "NIST CSF", "ISO 27001", "Incident Response", "AI Risk", "Governance"].map((tag, i) => (
                     <span key={i} style={{
                       background: BRAND.accentGlow, color: BRAND.accent, padding: "6px 14px",
                       borderRadius: 6, fontSize: 13, fontWeight: 500, fontFamily: "'DM Sans', sans-serif",
@@ -1204,6 +1211,7 @@ export default function App() {
       <Nav />
       <Hero />
       <Problem />
+      <WhoWeHelp />
       <Services />
       <CaseStudy />
       <Testimonial />
